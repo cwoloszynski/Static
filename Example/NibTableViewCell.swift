@@ -10,7 +10,7 @@ final class NibTableViewCell: UITableViewCell, Cell {
     
     // MARK: - CellType
 
-    static func nib() -> UINib? {
+    @objc static func nib() -> UINib? {
         return UINib(nibName: String(describing: self), bundle: nil)
     }
 
