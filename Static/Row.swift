@@ -1,7 +1,7 @@
 import UIKit
 
 /// Row or Accessory selection callback.
-public typealias Selection = () -> Void
+public typealias SelectionAction = () -> Void
 
 /// Representation of a table row.
 public struct Row: Hashable, Equatable {
@@ -17,13 +17,13 @@ public struct Row: Hashable, Equatable {
         case disclosureIndicator
 
         /// Info button with chevron. Handles selection.
-        case detailDisclosureButton(Selection)
+        case detailDisclosureButton(SelectionAction)
 
         /// Checkmark
         case checkmark
 
         /// Info button. Handles selection.
-        case detailButton(Selection)
+        case detailButton(SelectionAction)
 
         /// Custom view
         case view(UIView)
@@ -48,7 +48,7 @@ public struct Row: Hashable, Equatable {
         }
 
         /// Selection block for accessory buttons
-        public var selection: Selection? {
+        public var selection: SelectionAction? {
             switch self {
             case .detailDisclosureButton(let selection): return selection
             case .detailButton(let selection): return selection
@@ -74,14 +74,14 @@ public struct Row: Hashable, Equatable {
         public let backgroundEffect: UIVisualEffect?
         
         /// Invoked when selecting the action.
-        public let selection: Selection?
+        public let selectionAction: SelectionAction?
         
-        public init(title: String, style: UITableViewRowActionStyle = .default, backgroundColor: UIColor? = nil, backgroundEffect: UIVisualEffect? = nil, selection: Selection? = nil) {
+        public init(title: String, style: UITableViewRowActionStyle = .default, backgroundColor: UIColor? = nil, backgroundEffect: UIVisualEffect? = nil, selectionAction: SelectionAction? = nil) {
             self.title = title
             self.style = style
             self.backgroundColor = backgroundColor
             self.backgroundEffect = backgroundEffect
-            self.selection = selection
+            self.selectionAction = selectionAction
         }
     }
 
@@ -103,7 +103,7 @@ public struct Row: Hashable, Equatable {
     public var image: UIImage?
 
     /// Action to run when the row is selected.
-    public var selection: Selection?
+    public var selection: SelectionAction?
 
     /// View to be used for the row.
     public var cellClass: Cell.Type
@@ -133,7 +133,7 @@ public struct Row: Hashable, Equatable {
 
     // MARK: - Initializers
 
-    public init(text: String? = nil, detailText: String? = nil, selection: Selection? = nil,
+    public init(text: String? = nil, detailText: String? = nil, selection: SelectionAction? = nil,
         image: UIImage? = nil, accessory: Accessory = .none, cellClass: Cell.Type? = nil, context: Context? = nil, editActions: [EditAction] = [], uuid: String = UUID().uuidString) {
         
         self.uuid = uuid
