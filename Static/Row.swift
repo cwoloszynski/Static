@@ -48,10 +48,10 @@ public struct Row: Hashable, Equatable {
         }
 
         /// Selection block for accessory buttons
-        public var selection: SelectionAction? {
+        public var selectionAction: SelectionAction? {
             switch self {
-            case .detailDisclosureButton(let selection): return selection
-            case .detailButton(let selection): return selection
+            case .detailDisclosureButton(let selectionAction): return selectionAction
+            case .detailButton(let selectionAction): return selectionAction
             default: return nil
             }
         }
@@ -103,7 +103,7 @@ public struct Row: Hashable, Equatable {
     public var image: UIImage?
 
     /// Action to run when the row is selected.
-    public var selection: SelectionAction?
+    public var selectionAction: SelectionAction?
 
     /// View to be used for the row.
     public var cellClass: Cell.Type
@@ -119,7 +119,7 @@ public struct Row: Hashable, Equatable {
     }
 
     var isSelectable: Bool {
-        return selection != nil
+        return selectionAction != nil
     }
 
     var cellIdentifier: String {
@@ -133,13 +133,13 @@ public struct Row: Hashable, Equatable {
 
     // MARK: - Initializers
 
-    public init(text: String? = nil, detailText: String? = nil, selection: SelectionAction? = nil,
+    public init(text: String? = nil, detailText: String? = nil, selectionAction: SelectionAction? = nil,
         image: UIImage? = nil, accessory: Accessory = .none, cellClass: Cell.Type? = nil, context: Context? = nil, editActions: [EditAction] = [], uuid: String = UUID().uuidString) {
         
         self.uuid = uuid
         self.text = text
         self.detailText = detailText
-        self.selection = selection
+        self.selectionAction = selectionAction
         self.image = image
         self.accessory = accessory
         self.cellClass = cellClass ?? Value1Cell.self

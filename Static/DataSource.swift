@@ -273,13 +273,13 @@ extension DataSource: UITableViewDelegate {
         }
 
         if let row = row(at: indexPath) {
-            row.selection?()
+            row.selectionAction?()
         }
     }
 
     public func tableView(_ tableView: UITableView, accessoryButtonTappedForRowWith indexPath: IndexPath) {
         if let row = row(at: indexPath) {
-            row.accessory.selection?()
+            row.accessory.selectionAction?()
         }
     }
 }
