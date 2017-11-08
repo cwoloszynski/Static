@@ -219,11 +219,20 @@ extension DataSource: UITableViewDataSource {
         return section(at: sectionIndex)?.footer?.viewHeight ?? 0
     }
 
-    public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    /* public func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return row(at: indexPath)?.canEdit ?? false
+    } */
+    
+    public func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let configuration = row(at: indexPath)?.swipeActionsConfiguration
+        return configuration
+    }
+    
+    public func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        return nil
     }
 
-    @objc(tableView:editActionsForRowAtIndexPath:)
+    /* @objc(tableView:editActionsForRowAtIndexPath:)
     public func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         return row(at: indexPath)?.editActions.map {
             action in
@@ -244,7 +253,7 @@ extension DataSource: UITableViewDataSource {
 
             return rowAction
         }
-    }
+    } */
 
     public func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         guard let sectionIndexTitles = sectionIndexTitles, sectionIndexTitles.count >= sections.count else { return nil }

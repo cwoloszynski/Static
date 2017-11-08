@@ -55,6 +55,8 @@ public struct Row: Hashable, Equatable {
             default: return nil
             }
         }
+        
+        
     }
 
     public typealias Context = [String: Any]
@@ -105,6 +107,8 @@ public struct Row: Hashable, Equatable {
     /// Action to run when the row is selected.
     public var selectionAction: SelectionAction?
 
+    public var swipeActionsConfiguration: UISwipeActionsConfiguration?
+    
     /// View to be used for the row.
     public var cellClass: Cell.Type
 
