@@ -138,7 +138,7 @@ public struct Row: Hashable, Equatable {
     // MARK: - Initializers
 
     public init(text: String? = nil, detailText: String? = nil, selectionAction: SelectionAction? = nil,
-        image: UIImage? = nil, accessory: Accessory = .none, cellClass: Cell.Type? = nil, context: Context? = nil, editActions: [EditAction] = [], uuid: String = UUID().uuidString) {
+        image: UIImage? = nil, accessory: Accessory = .none, cellClass: Cell.Type? = nil, context: Context? = nil, editActions: [EditAction] = [], uuid: String = UUID().uuidString, swipeActionsConfiguration: UISwipeActionsConfiguration? = nil) {
         
         self.uuid = uuid
         self.text = text
@@ -149,6 +149,7 @@ public struct Row: Hashable, Equatable {
         self.cellClass = cellClass ?? Value1Cell.self
         self.context = context
         self.editActions = editActions
+        self.swipeActionsConfiguration = swipeActionsConfiguration
     }
 }
 

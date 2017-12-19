@@ -9,7 +9,7 @@ class RowTests: XCTestCase {
             "Hello": "world"
         ]
 
-        let row = Row(text: "Title", detailText: "Detail", selection: selection, cellClass: ButtonCell.self, context: context, uuid: "1234")
+        let row = Row(text: "Title", detailText: "Detail", selectionAction: selection, cellClass: ButtonCell.self, context: context, uuid: "1234")
         XCTAssertEqual("1234", row.uuid)
         XCTAssertEqual("Title", row.text!)
         XCTAssertEqual("Detail", row.detailText!)
@@ -37,7 +37,7 @@ class RowTests: XCTestCase {
         let row = Row(accessory: accessory)
 
         XCTAssertEqual(row.accessory, accessory)
-        XCTAssertTrue(row.accessory.selection != nil)
+        XCTAssertTrue(row.accessory.selectionAction != nil)
     }
 
     func testInitWithAccessoryView() {

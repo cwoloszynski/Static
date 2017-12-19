@@ -2,6 +2,17 @@ import XCTest
 import UIKit
 import Static
 
+
+// From: https://www.raizlabs.com/dev/2017/02/xctest-optional-unwrapping/
+struct UnexpectedNilError: Error {}
+func AssertNotNilAndUnwrap<T>(_ variable: T?, message: String = "Unexpected nil variable", file: StaticString = #file, line: UInt = #line) throws -> T {
+    guard let variable = variable else {
+        XCTFail(message, file: file, line: line)
+        throw UnexpectedNilError()
+    }
+    return variable
+}
+
 class DataSourceTests: XCTestCase {
 
     // MARK: - Properties
@@ -45,13 +56,17 @@ class DataSourceTests: XCTestCase {
         XCTAssertEqual(0, tableView.numberOfSections)
     }
 
-    func testCellForRowAtIndexPath() {
+    func testCellForRowAtIndexPath() throws {
         dataSource.sections = [
             Section(rows: [
                 Row(text: "Merrily", detailText: "merrily", accessory: .disclosureIndicator)
             ])
         ]
-        let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0))!
+        
+        // The follwing line can return nil in test code since the cell may not be visible (my speculation)
+        // let cell = try AssertNotNilAndUnwrap(tableView.cellForRow(at: IndexPath(row: 0, section: 0)))
+        // So, instead, we use the datasource cellForRowAt: call to test the code
+        let cell = try AssertNotNilAndUnwrap(dataSource.tableView(tableView, cellForRowAt: IndexPath(row: 0, section: 0)))
         XCTAssertEqual("Merrily", cell.textLabel!.text!)
         XCTAssertEqual("merrily", cell.detailTextLabel!.text!)
         XCTAssertEqual(UITableViewCellAccessoryType.disclosureIndicator, cell.accessoryType)
@@ -90,7 +105,7 @@ class DataSourceTests: XCTestCase {
         XCTAssertFalse(dataSource.tableView(tableView, shouldHighlightRowAt: IndexPath(row: 0, section: 0)))
 
         dataSource.sections = [
-            Section(rows: [Row(text: "Cupcakes", selection: {})])
+            Section(rows: [Row(text: "Cupcakes", selectionAction: {})])
         ]
         XCTAssertTrue(dataSource.tableView(tableView, shouldHighlightRowAt: IndexPath(row: 0, section: 0)))
     }
@@ -102,7 +117,7 @@ class DataSourceTests: XCTestCase {
         }
 
         dataSource.sections = [
-            Section(rows: [Row(text: "Button", selection: selection)])
+            Section(rows: [Row(text: "Button", selectionAction: selection)])
         ]
         dataSource.tableView(tableView, didSelectRowAt: IndexPath(row: 0, section: 0))
         waitForExpectations(timeout: 1, handler: nil)
